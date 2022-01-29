@@ -1,9 +1,10 @@
-import type { NextPage } from 'next'
+import type { NextPage } from 'next';
+import Orders from './twcss/orders';
 
 const Home: NextPage = () => {
   return (
-null
-  )
-}
+    <Orders />
+  );
+};
 
-export default Home
+export default Home;
