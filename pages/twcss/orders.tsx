@@ -15,6 +15,13 @@ const orders: NextPage = () => {
             <span className='text-gray-400'>Egros Chair</span>
             <span className='font-semibold'>$5,000</span>
           </div>
+          {['a', 'b', 'c', ''].map((item, index) => {
+            return (
+              <div key={index} className='flex justify-between mt-3 pt-4 bg-amber-500 empty:bg-teal-400'>
+                {item}
+              </div>
+            );
+          })}
           <div className='flex justify-between mt-3'>
             <span className='text-gray-400'>Wooden Chair</span>
             <span className='font-semibold'>$5,000</span>
