@@ -30,12 +30,12 @@ const orders: NextPage = () => {
             <span>Total</span>
             <span className='font-semibold'>$10,000</span>
           </div>
-          <button className='flex justify-center font-bold mt-5 bg-blue-600 text-white py-3 rounded-xl w-1/2 mx-auto hover:bg-blue-200 hover:text-black active:bg-teal-200'>
+          <button className='flex justify-center font-bold mt-5 bg-blue-600 text-white py-3 rounded-xl w-1/2 mx-auto hover:bg-blue-200 hover:text-black active:bg-teal-200 transition-colors'>
             Checkout
           </button>
         </div>
-        <div className='bg-white overflow-hidden rounded-2xl shadow-xl'>
-          <div className='bg-blue-600 p-6 pb-14'>
+        <div className='bg-white overflow-hidden rounded-2xl shadow-xl group'>
+          <div className='bg-blue-600 p-6 pb-14 group-hover:bg-teal-400 transition-colors'>
             <span className='text-white text-2xl font-semibold'>Profile</span>
           </div>
           <div className='rounded-3xl p-6 bg-white relative -top-5'>
