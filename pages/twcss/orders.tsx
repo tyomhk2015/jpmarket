@@ -7,9 +7,10 @@ const orders: NextPage = () => {
   };
 
   return (
-    <div className='bg-slate-400 py-20 px-10'>
-      <div className=' grid gap-10 min-h-screen max-w-screen-sm mx-auto'>
-        <div className='bg-white p-6 rounded-2xl shadow-xl'>
+    <div className='bg-slate-400 min-h-screen flex items-center place-content-center dark:bg-slate-900'>
+    <div className='py-20 px-10'>
+      <div className=' grid gap-10 sm:grid-cols-2 lg:grid-cols-3 mx-auto'>
+        <div className='bg-white p-6 rounded-2xl shadow-xl dark:border-4 dark:border-dashed dark:border-fuchsia-900'>
           <h2 className='font-semibold text-3xl mb-3'>Select Time</h2>
           <div className='flex justify-between'>
             <span className='text-gray-400'>Egros Chair</span>
@@ -34,8 +35,8 @@ const orders: NextPage = () => {
             Checkout
           </button>
         </div>
-        <div className='bg-white overflow-hidden rounded-2xl shadow-xl group'>
-          <div className='bg-blue-600 p-6 pb-14 group-hover:bg-teal-400 transition-colors'>
+        <div className='bg-white overflow-hidden rounded-2xl shadow-xl group dark:border-4 dark:border-dashed dark:border-fuchsia-900'>
+          <div className='p-6 pb-14 lg:pt-14 lg:pb-20 group-hover:bg-teal-400 transition-colors landscape:bg-indigo-700 portrait:bg-emerald-600'>
             <span className='text-white text-2xl font-semibold'>Profile</span>
           </div>
           <div className='rounded-3xl p-6 bg-white relative -top-5'>
@@ -44,12 +45,12 @@ const orders: NextPage = () => {
                 <span className='text-sm text-gray-400'>Orders</span>
                 <span className='font-semibold'>333</span>
               </div>
-              <div className='h-24 w-24 bg-teal-400 rounded-full overflow-hidden'>
+              <div className='h-24 w-24 bg-teal-400 rounded-full relative overflow-hidden'>
                 <Image
                   loader={imgLoader}
                   src='https://avatars.githubusercontent.com/u/35278730?v=4'
-                  width='100%'
-                  height='100%'
+                  layout='fill'
+                  objectFit='cover'
                   alt='Profile image'
                 />
               </div>
@@ -64,7 +65,7 @@ const orders: NextPage = () => {
             </div>
           </div>
         </div>
-        <div className='bg-white p-10 rounded-2xl shadow-xl'>
+        <div className='bg-white p-10 rounded-2xl shadow-xl sm:col-span-2 lg:col-span-1 dark:border-4 dark:border-dashed dark:border-fuchsia-900'>
           <div className='flex justify-between items-center mb-5'>
             <span className='shadow-xl p-2 rounded-xl'>←</span>
             <div className='space-x-3'>
@@ -75,11 +76,10 @@ const orders: NextPage = () => {
           <div className='bg-zinc-500 h-60 rounded-3xl mb-5 relative overflow-hidden shadow-lg'>
             <Image
               loader={imgLoader}
-              src='https://avatars.githubusercontent.com/u/35278730?v=4'
-              width='100%'
-              height='100%'
+              src='https://www.nxp.com/assets/images/en/photography/HOMEPAGE-JP-NXP-SKYLINE.jpeg'
               alt='Profile image'
               layout='fill'
+              objectFit='cover'
             />
           </div>
           <div className='flex flex-col'>
@@ -109,8 +109,8 @@ const orders: NextPage = () => {
             </button>
           </div>
         </div>
-        <div className='bg-white p-10 rounded-2xl shadow-xl'></div>
       </div>
+    </div>
     </div>
   );
 };
