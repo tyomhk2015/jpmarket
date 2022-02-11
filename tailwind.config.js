@@ -11,5 +11,7 @@ module.exports = {
   darkMode: 'media',
   // Tailwind.css will apply the dark mode if the 'dark' className exists.
   // darkMode: 'class',
-  plugins: [],
+
+  // Place where to apply installed plugins of TailwindCSS
+  plugins: [require("@tailwindcss/forms")], 
 }
