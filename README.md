@@ -32,7 +32,7 @@ Initial setting
 
 <hr>
 
-# Tailwind.CSS
+# TailwindCSS
 
 In the past, Tailwind.css was a big CSS file have immense amount of combinations of CSS code. For the production deployment, there was a process of scanning and deleting unused CSS codes, before Tailwind V3. This process is called '<a href="https://v2.tailwindcss.com/docs/optimizing-for-production">purging</a>'. 
 
@@ -49,3 +49,13 @@ bg-red-900 => bg-[#FF0000]
 // For background images.
 => bg-[url('your/image/path.svg')]
 ```
+
+Available Plugins: <a href="https://tailwindcss.com/docs/plugins">Link</a>
+
+Tips for rounded borders
+```
+// Applies rounded borders for left or right side only.
+.round-r-md,
+.round-l-md,
+```
+
