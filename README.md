@@ -59,3 +59,4 @@ Tips for rounded borders
 .round-l-md,
 ```
 
+Icons for the project: <a href="https://heroicons.dev/">https://heroicons.dev/</a>
