@@ -60,3 +60,11 @@ Tips for rounded borders
 ```
 
 Icons for the project: <a href="https://heroicons.dev/">https://heroicons.dev/</a>
+
+Tips for adding border line between lists.
+```
+// No more explicitly defining border-top / -bottom at lists.
+// This must be applied to parent node.
+.divide-y-{width}
+.divide-x-{width}
+```
