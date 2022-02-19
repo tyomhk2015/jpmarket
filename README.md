@@ -68,3 +68,23 @@ Tips for adding border line between lists.
 .divide-y-{width}
 .divide-x-{width}
 ```
+
+<hr>
+
+# Prisma <a href="https://www.prisma.io/">🏠</a>
+
+ORM for Node.js & Typescript, a translator for typescript and database.
+<br>Instead of writing real SQL, Node.js & Typescript can be used for using database.
+
+### schema.prisma ✏️
+
+A file that tells prisma how your database looks like, and how your data will be structured.
+
+If prisma has information about the data or types, prisma can generate a client. ```Client``` is like a helper for talking to database using typescript.
+
+### To run prisma on CLI
+
+```
+(❌) $ prisma
+(✔️) $ npx prisma
+```
