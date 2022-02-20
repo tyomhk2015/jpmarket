@@ -71,7 +71,9 @@ Tips for adding border line between lists.
 
 <hr>
 
-# Prisma <a href="https://www.prisma.io/">🏠</a>
+# Prisma 
+
+<a href="https://www.prisma.io/">Homepage</a>
 
 ORM for Node.js & Typescript, a translator for typescript and database.
 <br>Instead of writing real SQL, Node.js & Typescript can be used for using database.
@@ -88,3 +90,7 @@ If prisma has information about the data or types, prisma can generate a client.
 (❌) $ prisma
 (✔️) $ npx prisma
 ```
+
+# Planetscale
+
+<a href="https://planetscale.com/">Homepage</a>
