@@ -3,11 +3,15 @@
 
 generator client {
   provider = "prisma-client-js"
+  // Telling prisma to check if the connecting object actually exists, similar to foreign key.
+  previewFeatures = ["referentialIntegrity"]
 }
 
 datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
+  // Specifying who's gonna check the connected objects.
+  referentialIntegrity = "prisma"
 }
 
 model User {
