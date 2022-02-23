@@ -21,8 +21,15 @@ const Enter: NextPage = () => {
     reset();
     setMethod('phone');
   };
-  const onValid = (data: EnterForm) => {
-    console.log(data);
+  const onValid = async (data: EnterForm) => {
+    const sendEnterForm = await fetch("api/users/enter", {
+      method: "POST",
+      body: JSON.stringify(data),
+      headers: {
+        "Content-Type": "application/json"
+      }
+    });
+    console.log(data, sendEnterForm);
   };
   const onInvalid = () => {};
   return (
