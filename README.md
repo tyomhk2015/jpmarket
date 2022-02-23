@@ -94,3 +94,7 @@ If prisma has information about the data or types, prisma can generate a client.
 # Planetscale
 
 <a href="https://planetscale.com/">Homepage</a>
+
+# React Hook Form 
+
+<a href="https://react-hook-form.com/">Homepage</a>
