@@ -1,7 +1,8 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import client from '../../libs/client';
+import client from '../../../libs/client';
 
 export default async function APIhandler(req: NextApiRequest, res: NextApiResponse) {
+  console.log(req.body);
   const userData = await client.user.findUnique({where: {
     id: 1
   }});
