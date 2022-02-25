@@ -1,18 +1,12 @@
+import client from 'libs/server/client';
+import withHandler from 'libs/server/withHandler';
 import { NextApiRequest, NextApiResponse } from 'next';
-import client from '../../../libs/server/client';
 
-export default async function EnterAPIhandler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
+async function EnterAPIhandler(req: NextApiRequest, res: NextApiResponse) {
   console.log(req.body);
-  const userData = await client.user.findUnique({
-    where: {
-      id: 1,
-    },
-  });
-  res.json({
+  res.status(201).json({
     ok: true,
-    data: userData,
   });
 }
+
+export default withHandler('POST', EnterAPIhandler);
