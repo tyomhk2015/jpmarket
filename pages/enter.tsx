@@ -83,9 +83,17 @@ const Enter: NextPage = () => {
               required
             />
           ) : null}
-          {method === 'email' ? <Button text={'Get login link'} /> : null}
+          {method === 'email' ? (
+            <Button
+              loading={loading}
+              text={loading ? 'Loading...' : 'Get login link'}
+            />
+          ) : null}
           {method === 'phone' ? (
-            <Button text={'Get one-time password'} />
+            <Button
+              loading={loading}
+              text={loading ? 'Loading...' : 'Get one-time password'}
+            />
           ) : null}
         </form>
 
