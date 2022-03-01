@@ -99,6 +99,8 @@ If prisma has information about the data or types, prisma can generate a client.
 
 <a href="https://react-hook-form.com/">Homepage</a>
 
-# Twilio
+# Twilio & SendGrid
 
-<a href="https://www.twilio.com/">Homepage</a>
+📱 <a href="https://www.twilio.com/">Homepage</a>
+<br>
+📧 <a href="https://app.sendgrid.com/">Homepage</a>

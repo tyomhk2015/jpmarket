@@ -1,6 +1,11 @@
+import twilio from 'twilio';
+import mail from '@sendgrid/mail';
 import client from 'libs/server/client';
 import withHandler, { ResponseType } from 'libs/server/withHandler';
 import { NextApiRequest, NextApiResponse } from 'next';
+
+mail.setApiKey(process.env.SENDGRID_API!);
+const twilioClient = twilio(process.env.TWILIO_SID, process.env.TWILIO_TOKEN);
 
 async function EnterAPIhandler(
   req: NextApiRequest,
@@ -32,7 +37,23 @@ async function EnterAPIhandler(
       },
     },
   });
-  console.log(token);
+  if (phone) {
+    const msg = await twilioClient.messages.create({
+      messagingServiceSid: process.env.TWILIO_SMS_ID,
+      to: process.env.PHONE_NUMBER!,
+      body: `Your Login Token Is \n${payload}`,
+    });
+    console.log(msg);
+  } else if (email) {
+    const email = await mail.send({
+      from: process.env.EMAIL!,
+      to: process.env.EMAIL,
+      subject: 'JPmarket verification',
+      text: `Your Login Token Is \n${payload}`,
+      html: `Your Login Token Is <br><strong>${payload}</strong>`,
+    });
+    console.log(email);
+  }
   res.status(201).json({
     ok: true,
   });
