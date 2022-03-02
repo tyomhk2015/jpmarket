@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 
-interface UseMutationState {
+interface UseMutationState<T> {
   loading: boolean;
-  data?: object;
+  data?: T;
   error?: object;
 }
 
-type UseMutationResult = [(data: any) => void, UseMutationState];
+type UseMutationResult<T> = [(data: any) => void, UseMutationState<T>];
 
 // Custom hook for mutation DB w/ given data from client side.
-function useMutation(url: string): UseMutationResult {
+function useMutation<T>(url: string): UseMutationResult<T> {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState<undefined | any>();
   const [error, setError] = useState<undefined | any>();
@@ -24,7 +24,7 @@ function useMutation(url: string): UseMutationResult {
           'Content-Type': 'application/json',
         },
       });
-      setData(response.json());
+      setData(await response.json());
     } catch (err) {
       setError(err);
     } finally {
