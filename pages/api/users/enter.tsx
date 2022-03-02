@@ -14,9 +14,13 @@ async function EnterAPIhandler(
   const { phone, email } = req.body;
   const userContact = phone ? { phone: +phone } : email ? { email } : null;
   if (!userContact) return res.status(400).json({ ok: false });
+
+  // Generate token.
   const payload =
     Date.now().toString(32) +
     Math.floor(256 + Math.random() * 256).toString(32);
+
+  // Create a token for a user.
   const token = await client.token.create({
     data: {
       payload, // Token number.
@@ -37,23 +41,45 @@ async function EnterAPIhandler(
       },
     },
   });
-  if (phone) {
-    const msg = await twilioClient.messages.create({
-      messagingServiceSid: process.env.TWILIO_SMS_ID,
-      to: process.env.PHONE_NUMBER!,
-      body: `Your Login Token Is \n${payload}`,
+
+  // Store only one token for one user.
+  const tokenLength = await client.token.count({
+    where: {
+      userId: token.userId,
+    },
+  });
+  if (tokenLength > 1) {
+    const searchedToken = await client.token.findFirst({
+      where: {
+        userId: token.userId,
+      },
     });
-    console.log(msg);
-  } else if (email) {
-    const email = await mail.send({
-      from: process.env.EMAIL!,
-      to: process.env.EMAIL,
-      subject: 'JPmarket verification',
-      text: `Your Login Token Is \n${payload}`,
-      html: `Your Login Token Is <br><strong>${payload}</strong>`,
+    await client.token.delete({
+      where: {
+        payload: searchedToken?.payload,
+      },
     });
-    console.log(email);
   }
+
+  // Send the token via SMS or email.
+  if (phone) {
+    // const msg = await twilioClient.messages.create({
+    //   messagingServiceSid: process.env.TWILIO_SMS_ID,
+    //   to: process.env.PHONE_NUMBER!,
+    //   body: `Your Login Token Is \n${payload}`,
+    // });
+    // console.log(msg);
+  } else if (email) {
+    // const email = await mail.send({
+    //   from: process.env.EMAIL!,
+    //   to: process.env.EMAIL,
+    //   subject: 'JPmarket verification',
+    //   text: `Your Login Token Is \n${payload}`,
+    //   html: `Your Login Token Is <br><strong>${payload}</strong>`,
+    // });
+    // console.log(email);
+  }
+
   res.status(201).json({
     ok: true,
   });
