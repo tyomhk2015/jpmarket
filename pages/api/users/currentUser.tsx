@@ -11,33 +11,24 @@ declare module "iron-session" {
   }
 }
 
-async function VerifyTokenAPIhandler(
+async function CurrentUser(
   req: NextApiRequest,
   res: NextApiResponse<ResponseType>
 ) {
-  const { token } = req.body;
-  const tokenFromDB = await client.token.findUnique({
+  console.log(req.session.user);
+  const currentUserProfile = await client.user.findUnique({
     where: {
-      payload: token,
+      id: req.session.user?.id
     },
-    // include: { // @relation in prisma.schema is mandatory.
-    //   user: true,
-    // }
   });
-  if (!tokenFromDB) return res.status(404).end();
-  console.log('tokenFromDB', tokenFromDB);
-
-  // Make a cookie session with verfied user's id, and save it.
-  req.session.user = {
-    id: tokenFromDB.userId
-  }
-  await req.session.save(); // Save the cookie session to the browser.
-
-  res.status(201).end();
+  res.json({
+    ok: true,
+    currentUserProfile,
+  });
 }
 
 export default withIronSessionApiRoute( // Attaching cookie session to withHandler function.
-  withHandler('POST', VerifyTokenAPIhandler),
+  withHandler('GET', CurrentUser),
   {
     cookieName: 'jpmarketSession',
     password: '12345679012345678901234567890122',
