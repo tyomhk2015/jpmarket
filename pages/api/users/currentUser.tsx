@@ -11,7 +11,7 @@ async function CurrentUser(
   console.log(req.session.user);
   const currentUserProfile = await client.user.findUnique({
     where: {
-      id: req.session.user?.id
+      id: req.session.user?.id,
     },
   });
   res.json({
@@ -20,4 +20,9 @@ async function CurrentUser(
   });
 }
 
-export default withApiSession(withHandler('GET', CurrentUser));
+export default withApiSession(
+  withHandler({
+    method: 'GET',
+    handler: CurrentUser,
+  })
+);
