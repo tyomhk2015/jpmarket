@@ -1,15 +1,8 @@
 import { withIronSessionApiRoute } from 'iron-session/next';
 import client from 'libs/server/client';
 import withHandler, { ResponseType } from 'libs/server/withHandler';
+import withApiSession from 'libs/server/withSession';
 import { NextApiRequest, NextApiResponse } from 'next';
-
-declare module "iron-session" {
-  interface IronSessionData {
-    user? : {
-      id: number
-    }
-  }
-}
 
 async function VerifyTokenAPIhandler(
   req: NextApiRequest,
@@ -29,17 +22,21 @@ async function VerifyTokenAPIhandler(
 
   // Make a cookie session with verfied user's id, and save it.
   req.session.user = {
-    id: tokenFromDB.userId
-  }
-  await req.session.save(); // Save the cookie session to the browser.
+    id: tokenFromDB.userId,
+  };
 
-  res.status(201).end();
+  // Save the cookie session to the browser.
+  await req.session.save();
+
+  // Once the token has been verified, delete it.
+  // For preventing token table getting unnecessarily big.
+  await client.token.deleteMany({
+    where: {
+      userId: tokenFromDB.userId,
+    },
+  });
+
+  res.status(200).json({ ok: true });
 }
 
-export default withIronSessionApiRoute( // Attaching cookie session to withHandler function.
-  withHandler('POST', VerifyTokenAPIhandler),
-  {
-    cookieName: 'jpmarketSession',
-    password: '12345679012345678901234567890122',
-  }
-);
+export default withApiSession(withHandler('POST', VerifyTokenAPIhandler));

@@ -1,10 +1,11 @@
 import type { NextPage } from 'next';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import Button from 'components/button';
 import Input from 'components/input';
 import useMutation from 'libs/client/useMutation';
 import { cls } from 'libs/client/utils';
+import { useRouter } from 'next/router';
 
 interface EnterForm {
   email?: string;
@@ -20,10 +21,13 @@ interface MutationResult {
 }
 
 const Enter: NextPage = () => {
-  const [enter, { loading, data, error }] = useMutation<MutationResult>('api/users/enter');
-  const [verifyToken, { loading:tokenLoading, data:tokenData }] = useMutation<MutationResult>('api/users/verifyToken');
+  const [enter, { loading, data, error }] =
+    useMutation<MutationResult>('api/users/enter');
+  const [verifyToken, { loading: tokenLoading, data: tokenData }] =
+    useMutation<MutationResult>('api/users/verifyToken');
   const { register, watch, reset, handleSubmit } = useForm<EnterForm>();
-  const { register:tokenRegister, handleSubmit:tokenHandleSubmit } = useForm<TokenForm>();
+  const { register: tokenRegister, handleSubmit: tokenHandleSubmit } =
+    useForm<TokenForm>();
   const [method, setMethod] = useState<'email' | 'phone'>('email');
   const onEmailClick = () => {
     reset();
@@ -41,7 +45,12 @@ const Enter: NextPage = () => {
     console.log(validForm);
     if (tokenLoading) return;
     verifyToken(validForm);
-  }
+  };
+  const router = useRouter();
+  useEffect(() => {
+    if (tokenData?.ok) router.push('/');
+    // TODO: If token fails, show the error message on the token verification screen.
+  }, [tokenData?.ok, router]);
   const initialLoginTemplate = (
     <>
       <div className='flex flex-col items-center'>
