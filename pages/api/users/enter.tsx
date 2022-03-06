@@ -3,6 +3,7 @@ import mail from '@sendgrid/mail';
 import client from 'libs/server/client';
 import withHandler, { ResponseType } from 'libs/server/withHandler';
 import { NextApiRequest, NextApiResponse } from 'next';
+import withApiSession from 'libs/server/withSession';
 
 mail.setApiKey(process.env.SENDGRID_API!);
 const twilioClient = twilio(process.env.TWILIO_SID, process.env.TWILIO_TOKEN);
@@ -12,7 +13,7 @@ async function EnterAPIhandler(
   res: NextApiResponse<ResponseType>
 ) {
   const { phone, email } = req.body;
-  const userContact = phone ? { phone: +phone } : email ? { email } : null;
+  const userContact = phone ? { phone } : email ? { email } : null;
   if (!userContact) return res.status(400).json({ ok: false });
 
   // Generate token.
@@ -42,25 +43,6 @@ async function EnterAPIhandler(
     },
   });
 
-  // Store only one token for one user.
-  const tokenLength = await client.token.count({
-    where: {
-      userId: token.userId,
-    },
-  });
-  if (tokenLength > 1) {
-    const searchedToken = await client.token.findFirst({
-      where: {
-        userId: token.userId,
-      },
-    });
-    await client.token.delete({
-      where: {
-        payload: searchedToken?.payload,
-      },
-    });
-  }
-
   // Send the token via SMS or email.
   if (phone) {
     // const msg = await twilioClient.messages.create({
@@ -85,4 +67,5 @@ async function EnterAPIhandler(
   });
 }
 
-export default withHandler('POST', EnterAPIhandler);
+export default withApiSession(withHandler('POST', EnterAPIhandler));
+
