@@ -67,5 +67,6 @@ async function EnterAPIhandler(
   });
 }
 
-export default withApiSession(withHandler('POST', EnterAPIhandler));
-
+export default withApiSession(
+  withHandler({ method: 'POST', handler: EnterAPIhandler })
+);

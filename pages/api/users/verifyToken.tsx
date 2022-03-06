@@ -39,4 +39,6 @@ async function VerifyTokenAPIhandler(
   res.status(200).json({ ok: true });
 }
 
-export default withApiSession(withHandler('POST', VerifyTokenAPIhandler));
+export default withApiSession(
+  withHandler({ method: 'POST', handler: VerifyTokenAPIhandler })
+);
