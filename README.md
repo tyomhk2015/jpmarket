@@ -108,3 +108,7 @@ If prisma has information about the data or types, prisma can generate a client.
 # Iron-session
 
 <a href="https://github.com/vvo/iron-session">Link</a>
+
+# SWR (stale-while-revalidate)
+
+<a href="https://swr.vercel.app/">Link</a>
