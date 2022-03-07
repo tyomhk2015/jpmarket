@@ -1,11 +1,17 @@
-import "../styles/globals.css";
-import type { AppProps } from "next/app";
+import '../styles/globals.css';
+import type { AppProps } from 'next/app';
+import { SWRConfig } from 'swr';
+
+const fetcher = async (url: string) =>
+  await fetch(url).then((response) => response.json());
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <div className="w-full max-w-xl mx-auto">
-      <Component {...pageProps} />
-    </div>
+    <SWRConfig value={{ fetcher }}>
+      <div className='w-full max-w-xl mx-auto'>
+        <Component {...pageProps} />
+      </div>
+    </SWRConfig>
   );
 }
 

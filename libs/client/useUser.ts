@@ -1,19 +1,14 @@
-import { useRouter } from "next/router";
-import { useLayoutEffect, useState } from "react";
-import useSWR from "swr";
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
+import useSWR from 'swr';
 
 export default function useUser() {
-  const [user, setUser] = useState();
+  const { data, error } = useSWR('/api/users/currentUser');
   const router = useRouter();
-  useLayoutEffect(() => {
-    fetch("/api/users/currentUser")
-      .then((response) => response.json())
-      .then((data) => {
-        if (!data.ok) {
-          return router.replace("/enter");
-        }
-        setUser(data.currentUserProfile);
-      });
-  }, [router]);
-  return user;
+  useEffect(() => {
+    if (data && !data.ok) {
+      router.replace('/enter');
+    }
+  }, [data, router]);
+  return { user: data?.currentUserProfile, isLoading: !data && !error };
 }
