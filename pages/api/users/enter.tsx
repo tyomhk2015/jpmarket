@@ -35,7 +35,7 @@ async function EnterAPIhandler(
           // If there is no user with specified email/phone number,
           // create a user and connect the user to the token above.
           create: {
-            name: 'anon',
+            name: 'Anonymous',
             ...userContact,
           },
         },
