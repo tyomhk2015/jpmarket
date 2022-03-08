@@ -17,7 +17,7 @@ interface UploadProductForm {
 
 interface UploadProductMutation {
   ok: boolean;
-  productData: Product;
+  product: Product;
 }
 
 const Upload: NextPage = () => {
@@ -29,7 +29,7 @@ const Upload: NextPage = () => {
     uploadProduct(data);
   };
   useEffect(() => {
-    if (data?.ok) router.push(`/products/${data.productData.id}`);
+    if (data?.ok) router.push(`/products/${data.product.id}`);
   }, [data, router]);
   return (
     <Layout canGoBack title='Upload Product'>

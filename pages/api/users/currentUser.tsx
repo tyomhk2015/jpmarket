@@ -21,7 +21,7 @@ async function CurrentUser(
 
 export default withApiSession(
   withHandler({
-    method: 'GET',
+    methods: ['GET'],
     handler: CurrentUser,
   })
 );

@@ -39,5 +39,5 @@ async function VerifyTokenAPIhandler(
 }
 
 export default withApiSession(
-  withHandler({ method: 'POST', handler: VerifyTokenAPIhandler })
+  withHandler({ methods: ['POST'], handler: VerifyTokenAPIhandler })
 );
