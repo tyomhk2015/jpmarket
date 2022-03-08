@@ -7,33 +7,46 @@ async function UploadProduct(
   req: NextApiRequest,
   res: NextApiResponse<ResponseType>
 ) {
-  const {
-    body: { title, price, description },
-    session: { user },
-  } = req;
+  if (req.method === 'GET') {
+    const products = await client.product.findMany({
+      orderBy: {
+        id: 'desc',
+      },
+    });
+    res.json({
+      ok: true,
+      products,
+    });
+  }
+  if (req.method === 'POST') {
+    const {
+      body: { title, price, description },
+      session: { user },
+    } = req;
 
-  const productData = await client.product.create({
-    data: {
-      title,
-      price: +price,
-      description,
-      image: "temp",
-      user: {
-        connect: {
-          id: user?.id,
+    const product = await client.product.create({
+      data: {
+        title,
+        price: +price,
+        description,
+        image: 'temp',
+        user: {
+          connect: {
+            id: user?.id,
+          },
         },
       },
-    },
-  });
-  res.json({
-    ok: true,
-    productData,
-  });
+    });
+    res.json({
+      ok: true,
+      product,
+    });
+  }
 }
 
 export default withApiSession(
   withHandler({
-    method: 'POST',
+    methods: ['GET', 'POST'],
     handler: UploadProduct,
   })
 );

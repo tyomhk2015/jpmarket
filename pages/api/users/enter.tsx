@@ -68,5 +68,5 @@ async function EnterAPIhandler(
 }
 
 export default withApiSession(
-  withHandler({ method: 'POST', handler: EnterAPIhandler })
+  withHandler({ methods: ['POST'], handler: EnterAPIhandler })
 );
