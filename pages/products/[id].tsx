@@ -3,16 +3,29 @@ import Button from 'components/button';
 import Layout from 'components/layout';
 import { useRouter } from 'next/router';
 import useSWR from 'swr';
-import { useLayoutEffect } from 'react';
+import { useEffect } from 'react';
 import Link from 'next/link';
+import { Product, User } from '@prisma/client';
+
+interface ProductWithUser extends Product {
+  user: User;
+}
+
+interface ItemDetailResponse {
+  ok: boolean;
+  product: ProductWithUser;
+  relatedProducts: Product[];
+}
 
 const ItemDetail: NextPage = () => {
   const router = useRouter();
-  const { data, error } = useSWR(
+  const { data, error } = useSWR<ItemDetailResponse>(
     router.query.id ? `/api/products/${router.query.id}` : null
   );
-  useLayoutEffect(() => {
+  useEffect(() => {
+    console.log(data);
     // TODO: When there is no data or if the data is being loaded, show loading effect.
+    // product === null
   }, [data, router]);
   return (
     <Layout canGoBack>
@@ -22,7 +35,7 @@ const ItemDetail: NextPage = () => {
           <div className='flex cursor-pointer py-3 border-t border-b items-center space-x-3'>
             <div className='w-12 h-12 rounded-full bg-slate-300' />
             <div>
-              <p className="text-sm font-medium text-gray-700">
+              <p className='text-sm font-medium text-gray-700'>
                 {data?.product?.user?.name}
               </p>
               <Link href={`/users/profiles/${data?.product?.user?.id}`}>
@@ -37,7 +50,7 @@ const ItemDetail: NextPage = () => {
               {data?.product?.title}
             </h1>
             <span className='text-2xl block mt-3 text-gray-900'>
-              {data?.product?.price}
+              ￦ {data?.product?.price}
             </span>
             <p className=' my-6 text-gray-700'>{data?.product?.description}</p>
             <div className='flex items-center justify-between space-x-2'>
@@ -65,11 +78,28 @@ const ItemDetail: NextPage = () => {
         <div>
           <h2 className='text-2xl font-bold text-gray-900'>Similar items</h2>
           <div className=' mt-6 grid grid-cols-2 gap-4'>
-            {[1, 2, 3, 4, 5, 6].map((_, i) => (
-              <div key={i}>
-                <div className='h-56 w-full mb-4 bg-slate-300' />
-                <h3 className='text-gray-700 -mb-1'>Galaxy S60</h3>
-                <span className='text-sm font-medium text-gray-900'>$6</span>
+            {data?.relatedProducts.map((product) => (
+              <div key={product.id}>
+                <div className='h-56 w-full mb-4 bg-slate-300'>
+                  <Link href={`/products/${product.id}`}>
+                    <a className='block'>
+                      {
+                        //Todo: Fill with image.
+                      }
+                    </a>
+                  </Link>
+                </div>
+                <h3 className='text-gray-700 -mb-1'>
+                  <Link href={`/products/${product.id}`}>
+                    {
+                      //Todo: Expand clickable area.
+                    }
+                    <a className='block'>{product.title}</a>
+                  </Link>
+                </h3>
+                <p className='text-sm font-medium text-gray-900'>
+                  ￦ {product.price}
+                </p>
               </div>
             ))}
           </div>

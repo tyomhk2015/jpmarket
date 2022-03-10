@@ -12,19 +12,38 @@ async function ProductDetail(
     where: {
       id: +id,
     },
-    include : {
-      user : {
+    include: {
+      user: {
         select: {
           id: true,
           name: true,
           avatar: true,
-        }
-      }
-    }
+        },
+      },
+    },
   });
+
+  const relatedWords = product?.title.split(' ').map((word) => ({
+    title: {
+      contains: word,
+    },
+  }));
+
+  const relatedProducts = await client.product.findMany({
+    where: {
+      OR: relatedWords,
+      AND: {
+        id: {
+          not: +id,
+        },
+      },
+    },
+  });
+
   res.json({
     ok: true,
     product,
+    relatedProducts,
   });
 }
 
