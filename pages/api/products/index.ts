@@ -12,6 +12,13 @@ async function UploadProduct(
       orderBy: {
         id: 'desc',
       },
+      include: {
+        _count: {
+          select : {
+            fav: true,
+          }
+        }
+      }
     });
     res.json({
       ok: true,
