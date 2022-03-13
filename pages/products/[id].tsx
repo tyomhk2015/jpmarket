@@ -2,10 +2,11 @@ import type { NextPage } from 'next';
 import Button from 'components/button';
 import Layout from 'components/layout';
 import { useRouter } from 'next/router';
-import useSWR from 'swr';
+import useSWR, { useSWRConfig } from 'swr';
 import { useEffect } from 'react';
 import Link from 'next/link';
 import { Product, User } from '@prisma/client';
+import useMutation from 'libs/client/useMutation';
 
 interface ProductWithUser extends Product {
   user: User;
@@ -15,13 +16,23 @@ interface ItemDetailResponse {
   ok: boolean;
   product: ProductWithUser;
   relatedProducts: Product[];
+  isFav: boolean;
 }
 
 const ItemDetail: NextPage = () => {
   const router = useRouter();
-  const { data, error } = useSWR<ItemDetailResponse>(
+  const { data, mutate: boundMutate } = useSWR<ItemDetailResponse>(
     router.query.id ? `/api/products/${router.query.id}` : null
   );
+  const { mutate: unboundMutate } = useSWRConfig();
+  const [toggleFav, { loading: favLoading, data: favData }] = useMutation(
+    `/api/products/${router.query.id}/fav`
+  );
+  const onFavClick = async () => {
+    if (!data) return;
+    boundMutate({ ...data, isFav: !data.isFav }, false);
+    toggleFav({});
+  };
   useEffect(() => {
     console.log(data);
     // TODO: When there is no data or if the data is being loaded, show loading effect.
@@ -55,13 +66,16 @@ const ItemDetail: NextPage = () => {
             <p className=' my-6 text-gray-700'>{data?.product?.description}</p>
             <div className='flex items-center justify-between space-x-2'>
               <Button large text='Talk to seller' />
-              <button className='p-3 rounded-md flex items-center justify-center text-gray-400 hover:bg-gray-100 hover:text-gray-500'>
+              <button
+                onClick={onFavClick}
+                className='p-3 rounded-md flex items-center justify-center text-gray-400 hover:bg-gray-100 hover:text-gray-500'
+              >
                 <svg
-                  className='h-6 w-6 '
+                  className='h-6 w-6'
                   xmlns='http://www.w3.org/2000/svg'
-                  fill='none'
+                  fill={data?.isFav ? '#ff0076' : 'none'}
                   viewBox='0 0 24 24'
-                  stroke='currentColor'
+                  stroke={data?.isFav ? '#ff0076' : 'currentColor'}
                   aria-hidden='true'
                 >
                   <path
