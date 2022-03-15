@@ -16,11 +16,11 @@ interface ProductResponseWithFav extends Product {
   }
 }
 
-const Home: NextPage = () => {
-  const { data:productData } = useSWR<ProductResponse>("/api/products");
+const Home: NextPage = () => {  const { data:productData } = useSWR<ProductResponse>("/api/products");
   return (
     <Layout title="홈" hasTabBar>
       <div className="flex flex-col space-y-5 divide-y">
+
         {productData?.products.map((product) => (
           <Item
             id={product.id}
