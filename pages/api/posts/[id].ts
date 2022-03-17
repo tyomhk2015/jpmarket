@@ -43,10 +43,16 @@ async function PostCreateHandler(
       },
     },
   });
-  res.json({
-    ok: true,
-    post,
-  });
+  if (!post) {
+    res.json({
+      ok: false,
+    });
+  } else {
+    res.json({
+      ok: true,
+      post,
+    });
+  }
 }
 
 export default withApiSession(
