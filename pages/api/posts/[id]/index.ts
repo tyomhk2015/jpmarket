@@ -9,6 +9,7 @@ async function PostCreateHandler(
 ) {
   const {
     query: { id },
+    session: { user },
   } = req;
   const post = await client.post.findUnique({
     where: {
@@ -43,6 +44,17 @@ async function PostCreateHandler(
       },
     },
   });
+  const isWondering = Boolean(
+    await client.wondering.findFirst({
+      where: {
+        postId: +id,
+        userId: user?.id,
+      },
+      select: {
+        id: true,
+      },
+    })
+  );
   if (!post) {
     res.json({
       ok: false,
@@ -51,6 +63,7 @@ async function PostCreateHandler(
     res.json({
       ok: true,
       post,
+      isWondering
     });
   }
 }
