@@ -13,6 +13,15 @@ interface AnswerWithUser extends Answer {
   user: User;
 }
 
+interface AnswerForm {
+  answer: string;
+}
+
+interface AnswerResponse {
+  ok: boolean;
+  response: Answer;
+}
+
 interface PostWithUser extends Post {
   user: User;
   _count: {
@@ -33,6 +42,11 @@ const CommunityPostDetail: NextPage = () => {
   const { data, mutate } = useSWR<CommunityPostResponse>(
     router.query.id ? `/api/posts/${router.query.id}` : null
   );
+  const [wonder, { loading }] = useMutation(
+    `/api/posts/${router.query.id}/wonder`
+  );
+  const [sendAnswer, { data: answerData, loading: answerLoading }] =
+    useMutation<AnswerResponse>(`/api/posts/${router.query.id}/answers`);
   const [toggleWondering] = useMutation(`/api/posts/${router.query.id}/wonder`);
   const onWonderClick = () => {
     if (!data) return;
@@ -140,7 +154,7 @@ const CommunityPostDetail: NextPage = () => {
             </div>
           ))}
         </div>
-        <div className='px-4'>
+        <form className='px-4' onSubmit={()=>{}}>
           <TextArea
             name='description'
             placeholder='Answer this question!'
@@ -149,7 +163,7 @@ const CommunityPostDetail: NextPage = () => {
           <button className='mt-2 w-full bg-orange-500 hover:bg-orange-600 text-white py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 focus:outline-none '>
             Reply
           </button>
-        </div>
+        </form>
       </div>
     </Layout>
   );

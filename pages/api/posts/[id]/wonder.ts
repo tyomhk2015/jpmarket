@@ -37,7 +37,7 @@ async function WonderingHandler(
         },
         post: {
           connect: {
-            id: +id.toString(),
+            id: +id,
           },
         },
       },
