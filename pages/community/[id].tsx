@@ -9,6 +9,7 @@ import { useEffect } from 'react';
 import useMutation from 'libs/client/useMutation';
 import { cls } from 'libs/client/utils';
 import { useForm } from 'react-hook-form';
+import Button from 'components/button';
 
 interface AnswerWithUser extends Answer {
   user: User;
@@ -171,9 +172,11 @@ const CommunityPostDetail: NextPage = () => {
             required
             register={register('answer', { required: true, minLength: 10 })}
           />
-          <button className='mt-2 w-full bg-orange-500 hover:bg-orange-600 text-white py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 focus:outline-none '>
-            {answerLoading ? 'Loading...' : 'Reply'}
-          </button>
+          <Button
+            loading={answerLoading}
+            className={'mt-2 w-full bg-orange-500 hover:bg-orange-600 text-white py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 focus:outline-none'}
+            text={answerLoading ? 'Loading...' : 'Reply'}
+          />
         </form>
       </div>
     </Layout>
