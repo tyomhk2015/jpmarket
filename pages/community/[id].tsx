@@ -8,6 +8,7 @@ import Link from 'next/link';
 import { useEffect } from 'react';
 import useMutation from 'libs/client/useMutation';
 import { cls } from 'libs/client/utils';
+import { useForm } from 'react-hook-form';
 
 interface AnswerWithUser extends Answer {
   user: User;
@@ -39,15 +40,15 @@ interface CommunityPostResponse {
 
 const CommunityPostDetail: NextPage = () => {
   const router = useRouter();
+  const { register, handleSubmit, reset } = useForm<AnswerForm>();
   const { data, mutate } = useSWR<CommunityPostResponse>(
     router.query.id ? `/api/posts/${router.query.id}` : null
   );
-  const [wonder, { loading }] = useMutation(
+  const [toggleWondering, { loading }] = useMutation(
     `/api/posts/${router.query.id}/wonder`
   );
   const [sendAnswer, { data: answerData, loading: answerLoading }] =
     useMutation<AnswerResponse>(`/api/posts/${router.query.id}/answers`);
-  const [toggleWondering] = useMutation(`/api/posts/${router.query.id}/wonder`);
   const onWonderClick = () => {
     if (!data) return;
     mutate(
@@ -66,11 +67,20 @@ const CommunityPostDetail: NextPage = () => {
       },
       false
     );
-    toggleWondering({});
+    if (!loading) toggleWondering({});
   };
+  const onValid = (form: AnswerForm) => {
+    if (answerLoading) return;
+    sendAnswer(form);
+  };
+
   useEffect(() => {
     if (data && !data?.ok) router.push('/404');
   }, [data, router]);
+
+  useEffect(() => {
+    if (answerData && !answerData?.ok) reset();
+  }, [answerData, reset]);
   return (
     <Layout canGoBack>
       <div>
@@ -154,14 +164,15 @@ const CommunityPostDetail: NextPage = () => {
             </div>
           ))}
         </div>
-        <form className='px-4' onSubmit={()=>{}}>
+        <form className='px-4' onSubmit={handleSubmit(onValid)}>
           <TextArea
             name='description'
             placeholder='Answer this question!'
             required
+            register={register('answer', { required: true, minLength: 10 })}
           />
           <button className='mt-2 w-full bg-orange-500 hover:bg-orange-600 text-white py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 focus:outline-none '>
-            Reply
+            {answerLoading ? 'Loading...' : 'Reply'}
           </button>
         </form>
       </div>
