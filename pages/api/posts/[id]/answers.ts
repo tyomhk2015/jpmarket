@@ -3,7 +3,7 @@ import withHandler, { ResponseType } from "libs/server/withHandler";
 import client from "libs/server/client";
 import withApiSession from "libs/server/withSession";
 
-async function handler(
+async function AnswerCreateHandler(
   req: NextApiRequest,
   res: NextApiResponse<ResponseType>
 ) {
@@ -22,7 +22,7 @@ async function handler(
       },
       post: {
         connect: {
-          id: +id.toString(),
+          id: +id,
         },
       },
       answer,
@@ -37,6 +37,6 @@ async function handler(
 export default withApiSession(
   withHandler({
     methods: ["POST"],
-    handler,
+    handler: AnswerCreateHandler,
   })
 );
