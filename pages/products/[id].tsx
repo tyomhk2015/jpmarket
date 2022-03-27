@@ -34,7 +34,6 @@ const ItemDetail: NextPage = () => {
     toggleFav({});
   };
   useEffect(() => {
-    console.log(data);
     // TODO: When there is no data or if the data is being loaded, show loading effect.
     // product === null
   }, [data, router]);
