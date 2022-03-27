@@ -16,7 +16,7 @@ interface ConfigType {
 export default function withHandler({
   methods,
   handler,
-  isPrivate = true,
+  isPrivate,
 }: ConfigType) {
   // The part that next.js will use eventually, when API is called.
   return async function (req: NextApiRequest, res: NextApiResponse) {
