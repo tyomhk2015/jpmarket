@@ -3,7 +3,7 @@ import withHandler, { ResponseType } from 'libs/server/withHandler';
 import withApiSession from 'libs/server/withSession';
 import { NextApiRequest, NextApiResponse } from 'next';
 
-async function UploadProduct(
+async function ProductHandler(
   req: NextApiRequest,
   res: NextApiResponse<ResponseType>
 ) {
@@ -20,6 +20,7 @@ async function UploadProduct(
         }
       }
     });
+
     res.json({
       ok: true,
       products,
@@ -54,6 +55,7 @@ async function UploadProduct(
 export default withApiSession(
   withHandler({
     methods: ['GET', 'POST'],
-    handler: UploadProduct,
+    handler: ProductHandler,
+    isPrivate: false,
   })
 );

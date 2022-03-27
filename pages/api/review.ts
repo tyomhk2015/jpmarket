@@ -10,7 +10,7 @@ async function ReviewHandler(
   const {
     session: { user },
   } = req;
-  console.log( user?.id );
+
   const reviews = await client.review.findMany({
     where: {
       createdForId: user?.id,
@@ -27,5 +27,6 @@ export default withApiSession(
   withHandler({
     methods: ['GET'],
     handler: ReviewHandler,
+    isPrivate: true,
   })
 );

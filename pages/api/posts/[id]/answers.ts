@@ -38,5 +38,6 @@ export default withApiSession(
   withHandler({
     methods: ["POST"],
     handler: AnswerCreateHandler,
+    isPrivate: true,
   })
 );

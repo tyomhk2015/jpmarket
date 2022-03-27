@@ -28,5 +28,6 @@ export default withApiSession(
   withHandler({
     methods: ["GET"],
     handler: CurrentUserFavHandler,
+    isPrivate: true,
   })
 );
