@@ -16,8 +16,7 @@ async function VerifyTokenAPIhandler(
     //   user: true,
     // }
   });
-  if (!tokenFromDB) return res.status(404).end();
-  console.log('tokenFromDB', tokenFromDB);
+  if (!tokenFromDB) return res.status(404).end(`No such token exists, ${token}`);
 
   // Make a cookie session with verfied user's id, and save it.
   req.session.user = {

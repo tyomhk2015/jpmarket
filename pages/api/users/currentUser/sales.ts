@@ -3,41 +3,32 @@ import withHandler, { ResponseType } from "libs/server/withHandler";
 import client from "libs/server/client";
 import withApiSession from "libs/server/withSession";
 
-async function AnswerCreateHandler(
+async function CurrentUserSalesHandler(
   req: NextApiRequest,
   res: NextApiResponse<ResponseType>
 ) {
   const {
-    query: { id },
     session: { user },
-    body: { answer },
   } = req;
 
-  const newAnswer = await client.answer.create({
-    data: {
-      user: {
-        connect: {
-          id: user?.id,
-        },
-      },
-      post: {
-        connect: {
-          id: +id,
-        },
-      },
-      answer,
+  const sales = await client.sale.findMany({
+    where: {
+      userId: user?.id,
+    },
+    include: {
+      product: true,
     },
   });
   res.json({
     ok: true,
-    answer: newAnswer,
+    sales,
   });
 }
 
 export default withApiSession(
   withHandler({
-    methods: ["POST"],
-    handler: AnswerCreateHandler,
+    methods: ["GET"],
+    handler: CurrentUserSalesHandler,
     isPrivate: true,
   })
 );

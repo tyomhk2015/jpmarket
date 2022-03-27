@@ -72,5 +72,6 @@ export default withApiSession(
   withHandler({
     methods: ['GET'],
     handler: PostCreateHandler,
+    isPrivate: true,
   })
 );

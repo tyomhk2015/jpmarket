@@ -52,5 +52,6 @@ export default withApiSession(
   withHandler({
     methods: ["POST"],
     handler: WonderingToggleHandler,
+    isPrivate: true,
   })
 );

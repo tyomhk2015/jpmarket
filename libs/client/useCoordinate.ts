@@ -7,6 +7,7 @@ interface UseCoordinateState {
 
 const useCoordinate = () => {
   const [coordinate, setCoordinate] = useState<UseCoordinateState>({
+    // Tokyo station.
     latitude: 35.680323966,
     longitude: 139.766832366,
   });
