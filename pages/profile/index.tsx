@@ -1,8 +1,21 @@
 import type { NextPage } from "next";
 import Link from "next/link";
 import Layout from "components/layout";
+import useSWR from "swr";
+import useUser from "libs/client/useUser";
+import { Review, User } from "@prisma/client";
+
+interface ReviewWithUser extends Review {
+  createdBy: User;
+}
+interface ReviewsResponse {
+  ok: boolean;
+  reviews: ReviewWithUser[];
+}
 
 const Profile: NextPage = () => {
+  const { user } = useUser();
+  const { data } = useSWR<ReviewsResponse>("/api/reviews");
   return (
     <Layout hasTabBar title="나의 캐럿">
       <div className="px-4">
