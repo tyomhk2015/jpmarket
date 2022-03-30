@@ -16,7 +16,15 @@ async function CurrentUserSalesHandler(
       userId: user?.id,
     },
     include: {
-      product: true,
+      product: {
+        include: {
+          _count: {
+            select: {
+              fav: true,
+            },
+          },
+        },
+      },
     },
   });
   res.json({
