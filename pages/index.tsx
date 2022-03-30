@@ -12,7 +12,7 @@ interface ProductResponse {
   user: number;
 }
 
-interface ProductResponseWithFav extends Product {
+export interface ProductResponseWithFav extends Product {
   _count: {
     fav: number;
   };
