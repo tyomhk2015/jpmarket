@@ -115,7 +115,7 @@ const EditProfile: NextPage = () => {
             {updateSuccess && resultMessage}
           </span>
         </div>
-        <Button text='Update profile' />
+        <Button loading={loading} text={loading ? 'Loading...' : 'Update profile'} />
       </form>
     </Layout>
   );
