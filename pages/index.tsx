@@ -33,7 +33,6 @@ const Home: NextPage = () => {
             key={product.id}
             title={product.title}
             price={product.price}
-            comments={1}
             hearts={product._count.fav}
           />
         ))}
