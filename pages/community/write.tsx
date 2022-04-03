@@ -23,7 +23,6 @@ const Write: NextPage = () => {
   const router = useRouter();
   const { register, handleSubmit } = useForm<WriteForm>();
   const [post, { loading, data }] = useMutation<WriteResponse>('/api/posts');
-  console.log(latitude, longitude);
   const onValid = (data: WriteForm) => {
     if (loading) return;
     post({...data, latitude, longitude});
