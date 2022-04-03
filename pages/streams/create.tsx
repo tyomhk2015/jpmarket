@@ -45,7 +45,7 @@ const StreamCreate: NextPage = () => {
           type='text'
         />
         <Input
-          register={register('price', { required: true })}
+          register={register('price', { required: true, valueAsNumber: true})}
           required
           label='Price'
           name='price'
