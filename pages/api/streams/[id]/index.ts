@@ -14,6 +14,21 @@ async function StreamDetailHandler(
     where: {
       id: +id,
     },
+    include: {
+      messages: {
+        select: {
+          id: true,
+          message: true,
+          user: {
+            select: {
+              avatar: true,
+              id: true,
+              name: true,
+            },
+          },
+        },
+      },
+    },
   });
   res.json({ ok: true, stream });
 }
