@@ -71,15 +71,6 @@ const Stream: NextPage = () => {
     );
   };
 
-  useEffect(() => {
-    if (sendMessageData && sendMessageData.ok) {
-      // Rerender the when there is a new message.
-      mutate();
-    }
-  }, [sendMessageData, mutate]);
-
-  console.log(data);
-
   return (
     <Layout canGoBack>
       <div className='py-10 px-4  space-y-4'>
