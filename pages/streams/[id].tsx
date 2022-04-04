@@ -46,7 +46,6 @@ const Stream: NextPage = () => {
   const { register, handleSubmit, reset } = useForm<MessageForm>();
   const onValid = (form: MessageForm) => {
     if (form.message.length === 0 || loading) return;
-    sendMessage(form);
     reset();
     mutate(
       (prev) =>
@@ -69,6 +68,7 @@ const Stream: NextPage = () => {
         } as any),
       false
     );
+    sendMessage(form);
   };
 
   return (
