@@ -30,7 +30,9 @@ async function StreamPostsHandler(
       select: {
         id: true,
         name: true,
-      }
+      },
+      take: 10,
+      skip: 0,
     });
     res.json({ ok: true, streams });
   }

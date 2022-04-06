@@ -35,6 +35,9 @@ async function PostCreateHandler(
             },
           },
         },
+        // For pagination
+        take: 10, // A number of answers to get.
+        skip: 0, // A number of answers to skip from querying.
       },
       _count: {
         select: {
