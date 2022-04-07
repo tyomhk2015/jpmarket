@@ -103,6 +103,14 @@ If prisma has information about the data or types, prisma can generate a client.
 
 📱 <a href="https://www.twilio.com/">Link</a>
 <br>
+⚠️Caution!
+<br>Make sure to sign up with proper and verifiable SNS account.
+<br>Do not forget to give required use case information sincerely.
+<br>Otherwise, the account gets suspended.
+<br>
+<br>The account can be recovered from suspension by giving required information by Twilio Support Team via Email.
+
+<br>
 📧 <a href="https://app.sendgrid.com/">Link</a>
 
 # Iron-session
