@@ -84,12 +84,6 @@ A file that tells prisma how your database looks like, and how your data will be
 
 If prisma has information about the data or types, prisma can generate a client. ```Client``` is like a helper for talking to database using typescript.
 
-### To run prisma on CLI
-
-```
-(❌) $ prisma
-(✔️) $ npx prisma
-```
 
 # Planetscale
 
