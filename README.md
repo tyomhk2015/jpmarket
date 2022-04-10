@@ -114,3 +114,9 @@ If prisma has information about the data or types, prisma can generate a client.
 # SWR (stale-while-revalidate)
 
 <a href="https://swr.vercel.app/">Link</a>
+
+# Cloudflare Images
+
+<a href="https://www.cloudflare.com/products/cloudflare-images/">Link</a>
+<br>
+<a href="https://developers.cloudflare.com/images/cloudflare-images/upload-images/direct-creator-upload/">Direct Creator Uploads</a>
