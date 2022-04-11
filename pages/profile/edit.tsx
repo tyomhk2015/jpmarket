@@ -33,19 +33,31 @@ const EditProfile: NextPage = () => {
   const [avatarPreview, setAvatarPreview] = useState('');
   const avatar = watch('avatar');
 
-  const onValid = ({ email, phone, name, avatar }: EditProfileForm) => {
+  const onValid = async ({ email, phone, name, avatar }: EditProfileForm) => {
     if (loading) return;
     if (!email && !phone && !name) {
       setIsError(true);
       setResultMessage('Name, email, or phone number, or name is required.');
     } else {
-      setIsError(false);
-      editProfile({
-        email,
-        phone,
-        name,
-      });
-      setResultMessage('');
+      if (avatar && avatar.length > 0) {
+        const cloudflareRequest = await (await fetch(`/api/files`)).json();
+        console.log(cloudflareRequest);
+        // upload file to CF URL
+        // editProfile({
+        //   email,
+        //   phone,
+        //   name,
+        //   // avatarUrl: CF URL
+        // });
+      } else {
+        setIsError(false);
+        editProfile({
+          email,
+          phone,
+          name,
+        });
+        setResultMessage('');
+      }
     }
   };
 
@@ -81,7 +93,7 @@ const EditProfile: NextPage = () => {
           {avatarPreview ? (
             <img
               src={avatarPreview}
-              className="w-14 h-14 rounded-full bg-slate-500"
+              className='w-14 h-14 rounded-full bg-slate-500'
             />
           ) : (
             <div className='w-14 h-14 rounded-full bg-slate-500' />
