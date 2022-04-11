@@ -7,7 +7,6 @@ async function CloudFlareImageHandler(
   req: NextApiRequest,
   res: NextApiResponse<ResponseType>
 ) {
-  console.log('hello\n\n');
   const response = await (
     await fetch(
       `https://api.cloudflare.com/client/v4/accounts/${process.env.CLOUDFLARE_ACCOUNT_ID}/images/v2/direct_upload`,
@@ -20,7 +19,6 @@ async function CloudFlareImageHandler(
       }
     )
   ).json();
-  console.log(response);
   res.json({
     ok: true,
     ...response.result,
