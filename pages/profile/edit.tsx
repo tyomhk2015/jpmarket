@@ -40,23 +40,28 @@ const EditProfile: NextPage = () => {
       setResultMessage('Name, email, or phone number, or name is required.');
     } else {
       if (avatar && avatar.length > 0 && user) {
-        const {id, uploadURL} = await (await fetch(`/api/files`)).json();
+        const { uploadURL } = await (await fetch(`/api/files`)).json();
         const formData = new FormData();
-        formData.append("file", avatar[0], user?.id.toString());
+        formData.append('file', avatar[0], user?.id.toString());
 
-        const response = await fetch(uploadURL, {
-          method: 'POST',
-          body: formData,
-        });
+        const {
+          result: { id },
+        } = await (
+          await fetch(uploadURL, {
+            method: 'POST',
+            body: formData,
+          })
+        ).json();
 
-        console.log(response);
+        console.log(id);
+
         // upload file to CF URL
-        // editProfile({
-        //   email,
-        //   phone,
-        //   name,
-        //   // avatarUrl: CF URL
-        // });
+        editProfile({
+          email,
+          phone,
+          name,
+          avatarId: id,
+        });
       } else {
         setIsError(false);
         editProfile({
@@ -73,6 +78,11 @@ const EditProfile: NextPage = () => {
     if (user?.name) setValue('name', user.name);
     if (user?.email) setValue('email', user.email);
     if (user?.phone) setValue('phone', +user.phone);
+    if (user?.avatar) {
+      setAvatarPreview(
+        `https://imagedelivery.net/_wo6jvg8GW1hy3HwUY-d5w/${user.avatar}/public`
+      );
+    }
   }, [user, setValue]);
 
   useEffect(() => {
