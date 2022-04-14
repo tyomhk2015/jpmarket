@@ -80,7 +80,7 @@ const EditProfile: NextPage = () => {
     if (user?.phone) setValue('phone', +user.phone);
     if (user?.avatar) {
       setAvatarPreview(
-        `https://imagedelivery.net/_wo6jvg8GW1hy3HwUY-d5w/${user.avatar}/public`
+        `https://imagedelivery.net/_wo6jvg8GW1hy3HwUY-d5w/${user.avatar}/avatar`
       );
     }
   }, [user, setValue]);
