@@ -28,7 +28,7 @@ async function ProductHandler(
   }
   if (req.method === 'POST') {
     const {
-      body: { title, price, description },
+      body: { title, price, description, photoId },
       session: { user },
     } = req;
 
@@ -37,7 +37,7 @@ async function ProductHandler(
         title,
         price: +price,
         description,
-        image: 'temp',
+        image: photoId,
         user: {
           connect: {
             id: user?.id,
