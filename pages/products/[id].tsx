@@ -41,9 +41,15 @@ const ItemDetail: NextPage = () => {
     <Layout canGoBack>
       <div className='px-4  py-4'>
         <div className='mb-8'>
-          <div className='h-96 bg-slate-300' />
+          <img
+            src={`https://imagedelivery.net/_wo6jvg8GW1hy3HwUY-d5w/${data?.product?.image}/public`}
+            className='mx-auto bg-slate-300 rounded-lg'
+          />
           <div className='flex cursor-pointer py-3 border-t border-b items-center space-x-3'>
-            <div className='w-12 h-12 rounded-full bg-slate-300' />
+            <img
+              src={`https://imagedelivery.net/_wo6jvg8GW1hy3HwUY-d5w/${data?.product?.user?.avatar}/avatar`}
+              className='w-12 h-12 bg-slate-300 rounded-full'
+            />
             <div>
               <p className='text-sm font-medium text-gray-700'>
                 {data?.product?.user?.name}
