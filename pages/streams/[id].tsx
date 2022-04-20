@@ -82,6 +82,13 @@ const Stream: NextPage = () => {
           <span className='text-2xl block mt-3 text-gray-900'>
             {data?.stream?.price}
           </span>
+          {data?.stream?.userId === user?.id && 
+            <ul className='bg-orange-400 p-5 rounded-md overflow-x-scroll flex flex-col space-y-3'>
+              <li>{data?.stream?.cloudflareId}</li>
+              <li>{data?.stream?.cloudflareUrl}</li>
+              <li>{data?.stream?.cloudflareKey}</li>
+            </ul>
+          }
           <p className=' my-6 text-gray-700'>{data?.stream?.description}</p>
         </div>
         <div>
