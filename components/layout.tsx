@@ -42,7 +42,7 @@ export default function Layout({
           </button>
         ) : null}
         {title ? (
-          <span className={cls(canGoBack ? "mx-auto" : "", "")}>{title}</span>
+          <span className={cls(canGoBack ? "mx-auto" : "", "font-bold ")}>{title}</span>
         ) : null}
       </div>
       <div className={cls("pt-12", hasTabBar ? "pb-24" : "")}>{children}</div>

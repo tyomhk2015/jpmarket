@@ -26,7 +26,7 @@ async function StreamPostsHandler(
             'Content-Type': 'application/json',
             Authorization: `Bearer ${process.env.CLOUDFLARE_STREAM_TOKEN}`,
           },
-          body: `{"meta": {"name": "${name}"},"recording": { "mode": "off", "timeoutSeconds": 60, "requireSignedURLs": false }}`,
+          body: `{"meta": {"name": "${name}"},"recording": { "mode": "automatic", "timeoutSeconds": 60, "requireSignedURLs": false }}`,
         }
       )
     ).json();
@@ -51,6 +51,7 @@ async function StreamPostsHandler(
       select: {
         id: true,
         name: true,
+        cloudflareId: true,
       },
       orderBy : {
         createdAt: 'desc'
