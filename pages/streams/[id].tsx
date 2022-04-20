@@ -40,7 +40,7 @@ const Stream: NextPage = () => {
   const { data, mutate } = useSWR<StreamResponse>(
     router.query.id ? `/api/streams/${router.query.id}` : null,
     {
-      refreshInterval: 1000,
+      // refreshInterval: 1000,
     }
   );
   const { register, handleSubmit, reset } = useForm<MessageForm>();
@@ -74,7 +74,16 @@ const Stream: NextPage = () => {
   return (
     <Layout canGoBack>
       <div className='py-10 px-4  space-y-4'>
-        <div className='w-full rounded-md shadow-sm bg-slate-300 aspect-video' />
+        {data?.stream?.cloudflareId ? (
+          <iframe
+            className='w-full aspect-video rounded-md bg-slate-300 shadow-sm'
+            src={`https://iframe.videodelivery.net/${data?.stream?.cloudflareId}`}
+            allow='accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;'
+            allowFullScreen={true}
+          ></iframe>
+        ) : (
+          <div className='w-full aspect-video rounded-md bg-slate-300 shadow-sm' />
+        )}
         <div className='mt-5'>
           <h1 className='text-3xl font-bold text-gray-900'>
             {data?.stream?.name}
@@ -82,6 +91,13 @@ const Stream: NextPage = () => {
           <span className='text-2xl block mt-3 text-gray-900'>
             {data?.stream?.price}
           </span>
+          {data?.stream?.userId === user?.id && (
+            <ul className='bg-orange-400 p-5 rounded-md overflow-x-scroll flex flex-col space-y-3'>
+              <li>{data?.stream?.cloudflareId}</li>
+              <li>{data?.stream?.cloudflareUrl}</li>
+              <li>{data?.stream?.cloudflareKey}</li>
+            </ul>
+          )}
           <p className=' my-6 text-gray-700'>{data?.stream?.description}</p>
         </div>
         <div>

@@ -12,44 +12,52 @@ async function StreamPostsHandler(
     body: { name, price, description },
   } = req;
   if (req.method === 'POST') {
-    const response = await (
+    const {
+      result: {
+        uid,
+        rtmps: { url, streamKey },
+      },
+    } = await (
       await fetch(
         `https://api.cloudflare.com/client/v4/accounts/${process.env.CLOUDFLARE_ACCOUNT_ID}/stream/live_inputs`,
         {
           method: 'POST',
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
             Authorization: `Bearer ${process.env.CLOUDFLARE_STREAM_TOKEN}`,
           },
-          body: `{"meta": {"name": "${name}"},"recording": { "mode": "off", "timeoutSeconds": 60, "requireSignedURLs": false }}`,
+          body: `{"meta": {"name": "${name}"},"recording": { "mode": "automatic", "timeoutSeconds": 60, "requireSignedURLs": false }}`,
         }
       )
     ).json();
-    console.log(response);
-    // const stream = await client.stream.create({
-    //   data: {
-    //     name,
-    //     price,
-    //     description,
-    //     user: {
-    //       connect: {
-    //         id: user?.id,
-    //       },
-    //     },
-    //     cloudflareId: uid,
-    //     cloudflareUrl: url,
-    //     cloudflareKey: streamKey,
-    //   },
-    // });
-    // res.json({ ok: true, stream });
+    const stream = await client.stream.create({
+      data: {
+        name,
+        price,
+        description,
+        user: {
+          connect: {
+            id: user?.id,
+          },
+        },
+        cloudflareId: uid,
+        cloudflareUrl: url,
+        cloudflareKey: streamKey,
+      },
+    });
+    res.json({ ok: true, stream });
   } else if (req.method === 'GET') {
     const streams = await client.stream.findMany({
       select: {
         id: true,
         name: true,
+        cloudflareId: true,
       },
-      take: 10,
-      skip: 0,
+      orderBy : {
+        createdAt: 'desc'
+      },
+      take: 10, // pagination part
+      skip: 0,  // pagination part
     });
     res.json({ ok: true, streams });
   }
