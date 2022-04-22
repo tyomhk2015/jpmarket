@@ -16,7 +16,7 @@ const LazyComponentDynamic = dynamic(
 
 const Test: NextPage = () => {
   return (
-    <div className="bg-slate-300 px-4 py-8">
+    <div className="bg-slate-300 px-4 py-8 absolute top-1/2 left-1/2 transform translate-x-[-50%] translate-y-[-50%] w-[400px]">
       <h2>TESTING PAGE</h2>
       <div className="bg-white p-4 rounded-lg mt-5">
         Original: <LazyComponentTest />
