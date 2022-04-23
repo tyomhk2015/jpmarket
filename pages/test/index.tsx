@@ -5,11 +5,13 @@ import { Suspense } from "react";
 
 // WARNING: In one 'dynamic' function, 'suspense' and 'loading' cannot coexist, invokes 'ctor is not a function' error.
 const LazyComponentSuspense = dynamic(
+  // @ts-ignore
   () => new Promise((resolve) => setTimeout(() => resolve(import("components/lazyComponentTest")), 3000)),
   { ssr: false, suspense: true}
 )
 
 const LazyComponentDynamic = dynamic(
+  // @ts-ignore
   () => new Promise((resolve) => setTimeout(() => resolve(import("components/lazyComponentTest")), 3000)),
   { ssr: false, loading: () => <p>Loading the component with dynamic, next.js</p>}
 );
