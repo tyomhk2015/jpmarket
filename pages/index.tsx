@@ -5,6 +5,7 @@ import Layout from 'components/layout';
 import useSWR from 'swr';
 import { Product, User } from '@prisma/client';
 import { useEffect } from 'react';
+import client from 'libs/server/client';
 
 interface ProductResponse {
   ok: boolean;
@@ -18,22 +19,24 @@ export interface ProductResponseWithFav extends Product {
   };
 }
 
-const Home: NextPage = () => {
-  const { data: productData } = useSWR<ProductResponse>('/api/products');
+const Home: NextPage<{ products: ProductResponseWithFav[] }> = ({
+  products,
+}) => {
+  // const { data: productData } = useSWR<ProductResponse>('/api/products');
 
-  useEffect(() => {
-    // When user is not logged in or in valid session, redirect the user to login the page.
-  }, [productData]);
+  // // useEffect(() => {
+  // //   // When user is not logged in or in valid session, redirect the user to login the page.
+  // // }, [productData]);
   return (
     <Layout title='홈' hasTabBar seoTitle='Welcome JP Market'>
       <div className='flex flex-col space-y-5 divide-y'>
-        {productData?.products?.map((product) => (
+        {products?.map((product) => (
           <Item
             id={product.id}
             key={product.id}
             title={product.title}
             price={product.price}
-            hearts={product._count.fav}
+            hearts={product._count?.fav}
           />
         ))}
         <FloatingButton href='/products/upload'>
@@ -57,5 +60,18 @@ const Home: NextPage = () => {
     </Layout>
   );
 };
+
+export async function getServerSideProps() {
+  const products = await client.product.findMany({
+    orderBy: {
+      createdAt: 'desc',
+    },
+  });
+  return {
+    props: {
+      products: JSON.parse(JSON.stringify(products)),
+    },
+  };
+}
 
 export default Home;
