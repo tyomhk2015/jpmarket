@@ -14,7 +14,7 @@ interface StreamResponse {
 const Stream: NextPage = () => {
   const { data } = useSWR<StreamResponse>(`/api/streams/`);
   return (
-    <Layout hasTabBar title='Streaming'>
+    <Layout hasTabBar title='Streaming' seoTitle='Stream List'>
       <div className='divide-y-[1px] space-y-4'>
         {console.log(data?.streams)}
         {data?.streams?.map((stream) => (

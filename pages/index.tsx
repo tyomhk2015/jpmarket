@@ -25,7 +25,7 @@ const Home: NextPage = () => {
     // When user is not logged in or in valid session, redirect the user to login the page.
   }, [productData]);
   return (
-    <Layout title='홈' hasTabBar>
+    <Layout title='홈' hasTabBar seoTitle='Welcome JP Market'>
       <div className='flex flex-col space-y-5 divide-y'>
         {productData?.products?.map((product) => (
           <Item
