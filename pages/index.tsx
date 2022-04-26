@@ -2,9 +2,10 @@ import type { NextPage } from 'next';
 import FloatingButton from 'components/floating-button';
 import Item from 'components/item';
 import Layout from 'components/layout';
-import useSWR from 'swr';
+import useSWR, { SWRConfig } from 'swr';
 import { Product, User } from '@prisma/client';
 import { useEffect } from 'react';
+import client from 'libs/server/client';
 
 interface ProductResponse {
   ok: boolean;
@@ -33,7 +34,7 @@ const Home: NextPage = () => {
             key={product.id}
             title={product.title}
             price={product.price}
-            hearts={product._count.fav}
+            hearts={product._count?.fav || 0}
           />
         ))}
         <FloatingButton href='/products/upload'>
@@ -58,4 +59,37 @@ const Home: NextPage = () => {
   );
 };
 
-export default Home;
+// A initial page to shown as fallback.
+const InitPage: NextPage<{ products: ProductResponseWithFav[] }> = ({
+  products,
+}) => {
+  return (
+    <SWRConfig
+      value={{
+        fallback: {
+          '/api/products': {
+            ok: true,
+            products,
+          },
+        },
+      }}
+    >
+      <Home />
+    </SWRConfig>
+  );
+};
+
+export async function getServerSideProps() {
+  const products = await client.product.findMany({
+    orderBy: {
+      createdAt: 'desc',
+    },
+  });
+  return {
+    props: {
+      products: JSON.parse(JSON.stringify(products)),
+    },
+  };
+}
+
+export default InitPage;
