@@ -2,7 +2,7 @@ import type { NextPage } from 'next';
 import FloatingButton from 'components/floating-button';
 import Item from 'components/item';
 import Layout from 'components/layout';
-import useSWR from 'swr';
+import useSWR, { SWRConfig } from 'swr';
 import { Product, User } from '@prisma/client';
 import { useEffect } from 'react';
 import client from 'libs/server/client';
@@ -19,24 +19,22 @@ export interface ProductResponseWithFav extends Product {
   };
 }
 
-const Home: NextPage<{ products: ProductResponseWithFav[] }> = ({
-  products,
-}) => {
-  // const { data: productData } = useSWR<ProductResponse>('/api/products');
+const Home: NextPage = () => {
+  const { data: productData } = useSWR<ProductResponse>('/api/products');
 
-  // // useEffect(() => {
-  // //   // When user is not logged in or in valid session, redirect the user to login the page.
-  // // }, [productData]);
+  useEffect(() => {
+    // When user is not logged in or in valid session, redirect the user to login the page.
+  }, [productData]);
   return (
     <Layout title='홈' hasTabBar seoTitle='Welcome JP Market'>
       <div className='flex flex-col space-y-5 divide-y'>
-        {products?.map((product) => (
+        {productData?.products?.map((product) => (
           <Item
             id={product.id}
             key={product.id}
             title={product.title}
             price={product.price}
-            hearts={product._count?.fav}
+            hearts={product._count?.fav || 0}
           />
         ))}
         <FloatingButton href='/products/upload'>
@@ -61,6 +59,26 @@ const Home: NextPage<{ products: ProductResponseWithFav[] }> = ({
   );
 };
 
+// A initial page to shown as fallback.
+const InitPage: NextPage<{ products: ProductResponseWithFav[] }> = ({
+  products,
+}) => {
+  return (
+    <SWRConfig
+      value={{
+        fallback: {
+          '/api/products': {
+            ok: true,
+            products,
+          },
+        },
+      }}
+    >
+      <Home />
+    </SWRConfig>
+  );
+};
+
 export async function getServerSideProps() {
   const products = await client.product.findMany({
     orderBy: {
@@ -74,4 +92,4 @@ export async function getServerSideProps() {
   };
 }
 
-export default Home;
+export default InitPage;
